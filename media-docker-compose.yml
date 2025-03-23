@@ -7,7 +7,7 @@ services:
     image: linuxserver/qbittorrent:latest
     restart: unless-stopped
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=America/Bogota
       - WEBUI_PORT=8080
       - PUID=1000
       - PGID=1000
@@ -22,7 +22,7 @@ services:
     image: ghcr.io/linuxserver/jackett:latest
     restart: unless-stopped
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=America/Bogota
       - PUID=1000
       - PGID=1000
     volumes:
@@ -35,7 +35,7 @@ services:
     image: ghcr.io/linuxserver/bazarr:latest
     restart: unless-stopped
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=America/Bogota
       - PUID=1000
       - PGID=1000
     volumes:
@@ -51,7 +51,7 @@ services:
     depends_on:
       - qbittorrent
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=America/Bogota
       - PORT=5055
     volumes:
       - /home/akitaonrails/overseerr/config:/app/config
@@ -64,7 +64,7 @@ services:
     depends_on:
       - flaresolverr
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=America/Bogota
       - PUID=1000
       - PGID=1000
     volumes:
@@ -84,7 +84,7 @@ services:
     image: lscr.io/linuxserver/sabnzbd:latest
     restart: unless-stopped
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=America/Bogota
       - PUID=1000
       - PGID=1000
     volumes:
@@ -100,7 +100,7 @@ services:
     depends_on:
       - qbittorrent
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=America/Bogota
       - PUID=1000
       - PGID=1000
     volumes:
@@ -117,7 +117,7 @@ services:
     depends_on:
       - qbittorrent
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=America/Bogota
       - PUID=1000
       - PGID=1000
     volumes:
@@ -131,7 +131,7 @@ services:
     image: plexinc/pms-docker:latest
     restart: unless-stopped
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=America/Bogota
       - PUID=1000
       - PGID=1000
       - VA_DRIVER=IHD

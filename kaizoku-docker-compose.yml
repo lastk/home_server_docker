@@ -1,58 +1,34 @@
 version: '3'
 
-name: kaizoku
-
-volumes:
-  kaizoku-db:
-  redis:
+name: 'kaizoku'
 
 services:
-  app:
-    container_name: kaizoku
-    image: ghcr.io/oae/kaizoku:latest
-    restart: unless-stopped
+  suwayomi:
+    image: ghcr.io/suwayomi/tachidesk:preview
     environment:
-      - DATABASE_URL=postgresql://kaizoku:kaizoku@kaizoku-db:5432/kaizoku
-      - KAIZOKU_PORT=3000
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Sao_Paulo
+      - TZ=Etc/UTC # Use TZ database name from https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+      # Comment these out if you do not use the flaresolverr container at the bottom of this file
+      - FLARESOLVERR_ENABLED=true
+      - FLARESOLVERR_URL=http://flaresolverr:8191
     volumes:
-      - /mnt/terachad/Manga/Library:/data
-      - /mnt/terachad/Manga/Kaizoku/config:/config
-      - /tmp:/logs
-    depends_on:
-      kaizoku-db:
-        condition: service_healthy
+      - /mnt/storage/shared/media/manga:/home/suwayomi/.local/share/Tachidesk/downloads
+      - /home/house/tachidesk/files:/home/suwayomi/.local/share/Tachidesk      
     ports:
-      - '3000:3000'
-  redis:
-    image: redis:7-alpine
-    restart: unless-stopped
-    volumes:
-      - redis:/data
-  kaizoku-db:
-    image: postgres:alpine
-    restart: unless-stopped
-    healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U kaizoku']
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      - "4567:4567"
+    restart: on-failure:3
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
     environment:
-      - POSTGRES_USER=kaizoku
-      - POSTGRES_DB=kaizoku
-      - POSTGRES_PASSWORD=kaizoku
-    volumes:
-      - kaizoku-db:/var/lib/postgresql/data
-
+      - TZ=Etc/UTC # Use TZ database name from https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+    ports:
+      - "8191:8191"
+    restart: unless-stopped
   kavita:
     image: jvmilazz0/kavita:latest
     restart: unless-stopped
     volumes:
-      - /home/akitaonrails/kavita:/kavita/config
-      - /mnt/terachad/Manga/Library:/manga
+      - /home/house/kavita:/kavita/config
+      - /mnt/storage/shared/media/manga:/manga
     ports:
       - '5000:5000'

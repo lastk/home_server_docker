@@ -54,7 +54,7 @@ services:
     image: lscr.io/linuxserver/librespeed:latest
     restart: unless-stopped
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=America/Bogota
       - PUID=1000
       - PGID=1000
     volumes:
